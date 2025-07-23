@@ -49,8 +49,6 @@ Aplico fuerza bruta de directorios con `ffuf` pero no hay nada interesante.
 
 En la pagina principal hay un botón que abre un formulario para crear tickets.
 
-No es vulnerable a SSTI.
-
 ![book.png](Images/book.png)
 
 ### Gobuster

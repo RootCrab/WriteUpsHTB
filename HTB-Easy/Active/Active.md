@@ -44,7 +44,7 @@ PORT      STATE SERVICE          REASON
 
 Por los puertos 88:kerberos, 445:smb, 389:ldap y 53:DNS se muy probable que se trate de un Domain Controller(DC).
 
-Escanedo detallado:
+Escaneo detallado:
 
 ```
 nmap -p53,88,135,139,389,445,464,593,636,3268,3269,5722,9389,47001,49152,49153,49154,49155,49157,49158,49162,49166,49170 -sCV -oN Targeted 10.129.8.54

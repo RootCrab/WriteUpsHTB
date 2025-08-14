@@ -45,33 +45,33 @@ En el puerto 5000 hay un servidor web `Gunicorn`.
 
 En la pagina se encuentra un editor de codigo pyhton:
 
-![[web.png]]
+![web.png](Images/web.png)
 
 Intento de ejecutar comandos en el sistema con `os`, pero esta restringido:
 
-![[os.png]]
+![os.png](Images/os.png)
 
-![[os2.png]]
+![os2.png](Images/os2.png)
 
 Enumero variables y clases globales:
 
-![[globals.png]]
+![globals.png](Images/globals.png)
 
 db y User son interesantes.
 
-![[type.png]]
+![type.png](Images/type.png)
 
 `User` es `sqlalchemy`.
 
 + `Sqlalchemy` es una librería de python para trabajar con bases de datos relacionales.
 
-![[dir.png]]
+![dir.png](Images/dir.png)
 
 Columnas `id`, `username` y `password` en `User`.
 
 usuarios y hashes de contraseña:
 
-![[query.png]]
+![query.png](Images/query.png)
 
 ## Hashcat
 
@@ -93,14 +93,14 @@ hashcat -a 0 -m 0 hash /usr/share/wordlists/rockyou.txt
 
 Las credenciales `martin` y `nafeelswordsmaster` son validas para conexión por `ssh`:
 
-![[ssh.png]]
+![ssh.png](Images/ssh.png)
 
-![[martin.png]]
+![martin.png](Images/martin.png)
 # PrivEsc
 
-![[sudo.png]]
+![sudo.png](Images/sudo.png)
 
-`martin` puedo ejecutar `backy.sh` sin contraseña y como cualquier usuario(`incluyendo root`).
+`martin` puede ejecutar `backy.sh` sin contraseña y como cualquier usuario(`incluyendo root`).
 
 `backy.sh`:
 
@@ -149,7 +149,7 @@ done
 
 En el directorio `home` de `martin` hay un directorio `backup` con un comprimido y un archivo `task.json`:
 
-![[json.png]]
+![json.png](Images/json.png)
 
 El script usa un archivo json para crear un backup.
 
@@ -179,14 +179,15 @@ Intento crear un backup de la clave privada `id_rsa` del usuario `root`:
 Los  `..` son para retroceder al directorio raiz, porque el script valida si el path comienza en `/home/ o /var/`.
 
 Fail:
-![[sudo2.png]]
 
-En el script `gsub("\\.\\./"; "")` esta remplazando `../` por cadenas vacias.
+![sudo2.png](Images/sudo2.png)
+
+En el script, `gsub("\\.\\./"; "")` esta remplazando `../` por cadenas vacias.
 
 Agrego doble `../` 
 `/home/....//root/.ssh/id_rsa`
 
-![[sudo3.png]]
+![sudo3.png](Images/sudo3.png)
 
 Lo descomprimo y leo la clave privada `id_rsa`:
 
@@ -204,9 +205,9 @@ hdENGN+hVCh//jFwAAAAlyb290QGNvZGU=
 -----END OPENSSH PRIVATE KEY-----
 ```
 
-Copio la clave en un archivo llamado `id_rsa`:
+Copio la clave en un archivo llamado `id_rsa`, y la uso para conectarme como `root` por `ssh`:
 
-![[root.png]]
+![root.png](Images/root.png)
 
 ```
 root@code:~# whoami
